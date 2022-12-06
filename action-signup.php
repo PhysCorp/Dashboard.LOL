@@ -26,7 +26,6 @@ $port = 3344;
 $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
 if ($conn) {
-    // echo "<script> alert('CONNECTED'); </script>";
     // Check if username already exists
     $sql = "SELECT * FROM users WHERE user_name = '$username' LIMIT 1";
     $result = mysqli_query($conn, $sql);
@@ -45,24 +44,21 @@ if ($conn) {
         }
         else {
             // If user is not successfully inserted into database, redirect to signup.php
-            echo "<script> alert('Signup failed'); </script>";
-            sleep(1);
+            $_SESSION['toast'] = "Signup failed";
             $conn->close();
             header("Location: signup.php");
         }
     }
     else {
         // If username already exists, redirect to login.php
-        echo "<script> alert('Username already exists'); </script>";
-        sleep(1);
+        $_SESSION['toast'] = "Username already exists";
         $conn->close();
         header("Location: login.php");
     }
 }
 else {
     die ("Connection failed: " . mysqli_connect_error());
-    echo "<script> alert('Connection failed'); </script>";
-    sleep(1);
+    $_SESSION['toast'] = "Connection failed";
     header('Location: signup.php');
 }
 

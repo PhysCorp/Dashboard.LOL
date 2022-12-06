@@ -36,8 +36,7 @@
         $sql = "UPDATE added SET placed_column = 0 WHERE user_id = " . $user_id . " AND widget_id = " . $id;
         $result = mysqli_query($conn, $sql);
 
-        // echo "<script> alert('Widget disabled successfully'); </script>";
-        // sleep(2);
+        $_SESSION['toast'] = "App removed successfully";
         // echo "<script> window.close(); </script>";
         header('Location: dashboard.php?customize=1');
     }

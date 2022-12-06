@@ -11,7 +11,6 @@ session_destroy();
 // Create a new session
 session_start();
 
-// echo "<script> alert('Logged out successfully'); </script>";
-// sleep(2);
+$_SESSION['toast'] = "You have been logged out";
 header('Location: login.php');
 ?>

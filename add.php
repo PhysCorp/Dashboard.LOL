@@ -42,8 +42,7 @@
         $sql = "UPDATE added SET placed_column = " . ($max_column + 1) . " WHERE user_id = " . $user_id . " AND widget_id = " . $id;
         $result = mysqli_query($conn, $sql);
 
-        // echo "<script> alert('Widget enabled successfully'); </script>";
-        // sleep(2);
+        $_SESSION['toast'] = "App added successfully";
         // echo "<script> window.close(); </script>";
         header('Location: dashboard.php?customize=1');
     }

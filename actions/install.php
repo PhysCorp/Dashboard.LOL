@@ -16,11 +16,11 @@ session_start();
     <meta name="author" content="SAD IT Guys" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard.LOL - INSTALLING</title>
-    <script src="js/feather.js"></script>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <link rel="icon" href="img/favicon.png" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="../js/feather.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <link rel="icon" href="../img/favicon.png" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
 
 <body>
     <!-- Loading spinner -->
@@ -33,11 +33,11 @@ session_start();
     <?php
     // If username session var is not set or password is not set, redirect to login page
     if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
-        header("Location: login.php");
+        header("Location: ../login.php");
     }
 
     // Get database info from json file in db_config.json
-    $db_config = json_decode(file_get_contents('key/db_config.json'), true);
+    $db_config = json_decode(file_get_contents('../key/db_config.json'), true);
 
     // Connect to database
     $host = $db_config['host'];
@@ -69,10 +69,9 @@ session_start();
         $sql = "INSERT INTO added (user_id, widget_id, placed_column, order_in_column) VALUES ('$user_id', '$widget_id', '0', '0')";
         $result = mysqli_query($conn, $sql);
 
-        // echo "<script> alert('App installed successfully'); </script>";
-        // sleep(2);
+        $_SESSION['toast'] = "App installed successfully!";
         // echo "<script> window.close(); </script>";
-        header('Location: apps.php');
+        header('Location: ../apps.php');
     }
     else {
         die ("Connection failed: " . mysqli_connect_error());

@@ -69,8 +69,7 @@ session_start();
         $sql = "DELETE FROM added WHERE user_id = '$user_id' AND widget_id = '$widget_id'";
         $result = mysqli_query($conn, $sql);
         
-        // echo "<script> alert('App installed successfully'); </script>";
-        // sleep(2);
+        $_SESSION['toast'] = "App uninstalled successfully!";
         // echo "<script> window.close(); </script>";
         header('Location: apps.php');
     }
