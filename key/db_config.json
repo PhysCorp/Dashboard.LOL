@@ -1,0 +1,7 @@
+{
+    "host": "127.0.0.1",
+    "user": "dashboard_agent",
+    "pass": "thedashboardliveson",
+    "db": "dashboard_lol",
+    "port": 3344
+}
