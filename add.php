@@ -26,27 +26,29 @@
         $id = $_GET['id'];
 
         // Get user id from database
-        // $sql = "SELECT user_id FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
-        // $result_id = mysqli_query($conn, $sql);
-        // $row_id = mysqli_fetch_assoc($result_id);
-        // $user_id = $row_id['user_id'];
         $sql = "SELECT user_id FROM users WHERE user_name = ? LIMIT 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $_SESSION['username']);
-        $stmt->execute();
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
         $result_id = $stmt->get_result();
         $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
 
         // Get maximum value of placed_column in added table
-        $sql = "SELECT MAX(placed_column) AS max_column FROM added WHERE user_id = " . $user_id;
-        $result_max = mysqli_query($conn, $sql);
-        $row_max = mysqli_fetch_assoc($result_max);
+        $sql = "SELECT MAX(placed_column AS max_column FROM added WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_max = $stmt->get_result();
+        $row_max = $result_max->fetch_assoc();
         $max_column = $row_max['max_column'];
 
         // Update added table at widget_id = $id, setting placed_column to $max_column + 1
-        $sql = "UPDATE added SET placed_column = " . ($max_column + 1) . " WHERE user_id = " . $user_id . " AND widget_id = " . $id;
-        $result = mysqli_query($conn, $sql);
+        $sql = "UPDATE added SET placed_column = ? WHERE user_id = ? AND widget_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("iii", ($max_column + 1), $user_id, $id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result = $stmt->get_result();
 
         $_SESSION['toast'] = "App added successfully";
         // echo "<script> window.close(); </script>";

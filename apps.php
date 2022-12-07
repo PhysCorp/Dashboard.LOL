@@ -113,12 +113,17 @@ session_start();
     if ($conn) {
         // Get all apps from database
         $sql = "SELECT * FROM appstore";
-        $result_apps = mysqli_query($conn, $sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_apps = $stmt->get_result();
 
         // Get user id from database
-        $sql = "SELECT user_id FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
-        $result_id = mysqli_query($conn, $sql);
-        $row_id = mysqli_fetch_assoc($result_id);
+        $sql = "SELECT user_id FROM users WHERE user_name = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $_SESSION['username']);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_id = $stmt->get_result();
+        $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
     }
     else {
@@ -156,9 +161,13 @@ session_start();
                                     echo '<p class="card-text">' . $row['description'] . '</p>';
 
                                     // Check if widget_id and user_id are in the added table
-                                    $sql = "SELECT * FROM added WHERE widget_id = " . $row['widget_id'] . " AND user_id = " . $user_id;
-                                    $result_added = mysqli_query($conn, $sql);
-                                    $row_added = mysqli_fetch_assoc($result_added);
+                                    $sql = "SELECT * FROM added WHERE widget_id = ? AND user_id = ?";
+                                    $stmt = $conn->prepare($sql);
+                                    $stmt->bind_param("ii", $row['app_id'], $user_id);
+                                    $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+                                    $result_added = $stmt->get_result();
+                                    $row_added = $result_added->fetch_assoc();
+
                                     // If widget_id and user_id are in the added table, display remove button
                                     if ($row_added) {
                                         echo '<p><a class="btn btn-danger" href="uninstall.php?id=' . $row['app_id'] . '">Remove</a></p>';

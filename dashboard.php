@@ -118,39 +118,52 @@ session_start();
     $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
     if ($conn) {
-        // Get all apps from database
-        // $sql = "SELECT * FROM appstore";
-        // $result_apps = mysqli_query($conn, $sql);
-
         // Get user id from database
-        $sql = "SELECT user_id FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
-        $result_id = mysqli_query($conn, $sql);
-        $row_id = mysqli_fetch_assoc($result_id);
+        $sql = "SELECT user_id FROM users WHERE user_name = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $_SESSION['username']);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_id = $stmt->get_result();
+        $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
 
         // Get user from database
-        $sql = "SELECT * FROM users WHERE user_id = '" . $user_id . "' LIMIT 1";
-        $result_user = mysqli_query($conn, $sql);
-        $row_user = mysqli_fetch_assoc($result_user);
+        $sql = "SELECT * FROM users WHERE user_id = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_user = $stmt->get_result();
+        $row_user = $result_user->fetch_assoc();
 
         // Get num_of_columns from database
-        $sql = "SELECT num_of_columns FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
-        $result_col = mysqli_query($conn, $sql);
-        $row_col = mysqli_fetch_assoc($result_col);
+        $sql = "SELECT num_of_columns FROM users WHERE user_id = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_col = $stmt->get_result();
+        $row_col = $result_col->fetch_assoc();
         $num_of_columns = $row_col['num_of_columns'];
 
         // Get the entire "added" table from database
-        $sql = "SELECT * FROM added WHERE user_id = '" . $user_id . "'";
-        $result_1st_added = mysqli_query($conn, $sql);
+        $sql = "SELECT * FROM added WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_1st_added = $stmt->get_result();
 
         // Get the entire "added" table from database
-        $sql = "SELECT * FROM added WHERE user_id = '" . $user_id . "'";
-        $result_2nd_added = mysqli_query($conn, $sql);
+        $sql = "SELECT * FROM added WHERE user_id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_2nd_added = $stmt->get_result();
 
         // Join the appstore, added, and widget tables on widget_id
-        $sql = "SELECT * FROM appstore INNER JOIN added ON appstore.widget_id = added.widget_id INNER JOIN widgets ON added.widget_id = widgets.widget_id WHERE user_id = '" . $user_id . "' ORDER BY added.placed_column ASC";
-        // $sql = "SELECT * FROM appstore INNER JOIN added ON appstore.widget_id = added.widget_id WHERE added.user_id = '" . $user_id . "' ORDER BY added.placed_column ASC";
-        $result_join = mysqli_query($conn, $sql);
+        $sql = "SELECT * FROM appstore INNER JOIN added ON appstore.widget_id = added.widget_id INNER JOIN widgets ON added.widget_id = widgets.widget_id WHERE user_id = ? ORDER BY added.placed_column ASC";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+        $result_join = $stmt->get_result();
     }
     else {
         die ("Connection failed: " . mysqli_connect_error());
@@ -194,16 +207,6 @@ session_start();
                                     if ($current_col == 0) {
                                         echo '<div class="row">';
                                     }
-
-                                    // Get widget info
-                                    // $sql = "SELECT * FROM appstore WHERE widget_id = '" . $row_added['widget_id'] . "' LIMIT 1";
-                                    // $result_widget = mysqli_query($conn, $sql);
-                                    // $row_widget = mysqli_fetch_assoc($result_widget);
-
-                                    // Get widget content
-                                    // $sql = "SELECT * FROM added WHERE widget_id = '" . $row_added['widget_id'] . "' LIMIT 1";
-                                    // $result_content = mysqli_query($conn, $sql);
-                                    // $row_content = mysqli_fetch_assoc($result_content);
 
                                     $row_join = mysqli_fetch_assoc($result_join);
 
@@ -260,9 +263,13 @@ session_start();
                         while ($row_added = mysqli_fetch_assoc($result_2nd_added)) {
                             // echo '<li class="list-group-item">' . $row_added['widget_id'] . '</li>';
                             $widget_id = $row_added['widget_id'];
-                            $sql = "SELECT * FROM appstore WHERE widget_id = '" . $widget_id . "' LIMIT 1";
-                            $result_appstore = mysqli_query($conn, $sql);
-                            $row_appstore = mysqli_fetch_assoc($result_appstore);
+                            $sql = "SELECT * FROM appstore WHERE widget_id = ? LIMIT 1";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->bind_param("s", $widget_id);
+                            $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+                            $result_appstore = $stmt->get_result();
+                            $row_appstore = $result_appstore->fetch_assoc();
+
                             // If row_added["placed_column"] is not 0
                             if ($row_added['placed_column'] == 0) {
                                 echo '<li class="list-group-item"><a style="" href="add.php?id=' . $widget_id . '"><i data-feather="plus-square"></i> ' . $row_appstore['name'] . '</a></li>';

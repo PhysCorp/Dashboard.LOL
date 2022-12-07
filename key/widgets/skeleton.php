@@ -19,7 +19,7 @@ if ($conn) {
     $sql = "SELECT * FROM noteapp WHERE user_name = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
-    $stmt->execute();
+    $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
