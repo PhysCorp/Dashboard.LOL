@@ -113,8 +113,7 @@ session_start();
     $user = $db_config['user'];
     $pass = $db_config['pass'];
     $db = $db_config['db'];
-    // $port = $db_config['port'];
-    $port = 3344;
+    $port = $db_config['port'];
 
     $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
@@ -218,7 +217,7 @@ session_start();
                                             echo '<p class="card-text">' . $row_join['description'] . '</p>';
                                         }
                                         echo $row_join['data_dump'];
-                                        // echo '<p><a class="btn btn-primary" target="_blank" href="install.php?id=' . $row['app_id'] . '">Install</a></p>';
+                                        // echo '<p><a class="btn btn-primary" target="_blank" href="actions/install.php?id=' . $row['app_id'] . '">Install</a></p>';
                                         echo '</div>';
                                         echo '</div>';
                                         echo '</div>';
@@ -327,15 +326,15 @@ session_start();
 
     <!-- Refresh page every 60 seconds -->
     <script>
-        var autorefresh = document.getElementById("autorefresh");
-        autorefresh.addEventListener("change", function () {
+        // If autorefresh is checked, refresh page every 60 seconds
+        setInterval(function () {
+            var autorefresh = document.getElementById("autorefresh");
             if (autorefresh.checked) {
-                setInterval(function () {
-                    location.reload();
-                }, 60000);
+                location.reload();
             }
-        }); <
-        /body>
+        }, 60000);
+    </script>
 
-        <
-        /html>
+</body>
+
+</html>

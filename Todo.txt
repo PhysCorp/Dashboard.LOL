@@ -1,4 +1,2 @@
 + Change file structure - move certain files to "actions" folder
-+ Hashed passwords
 + Prepared statements
-+ Widget sites that access a user's personal database

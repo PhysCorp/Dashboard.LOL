@@ -19,33 +19,39 @@ $user = $db_config['user'];
 $pass = $db_config['pass'];
 $db = $db_config['db'];
 $port = $db_config['port'];
-// $port = 3344;
 
 $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
 if ($conn) {
-    // Check if username and password are correct
-    // $sql = "SELECT * FROM users WHERE user_name = '$username' AND password = '$password' LIMIT 1";
-    // $result = mysqli_query($conn, $sql);
-    // $numrows = mysqli_num_rows($result);
-    $sql = "SELECT * FROM users WHERE user_name = ? AND password = ? LIMIT 1";
+    // Get username details from database
+    $sql = "SELECT * FROM users WHERE user_name = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ss", $username, $password);
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
-    $numrows = $result->num_rows;
 
-    if ($numrows == 1) {
-        // If username and password are correct, set session variables and redirect to dashboard.php
-        $_SESSION['username'] = $username;
-        $_SESSION['password'] = $password;
-        $conn->close();
-        header("Location: dashboard.php");
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashed_password = $row['password'];
+
+        // Check if password is correct
+        if (password_verify($password, $hashed_password)) {
+            // Log user in
+            $stmt->close();
+            $_SESSION['username'] = $username;
+            $_SESSION['password'] = $hashed_password;
+            $_SESSION['toast'] = "Welcome back, $username!";
+            header("Location: dashboard.php");
+        }
+        else {
+            $stmt->close();
+            $_SESSION['toast'] = "Incorrect password";
+            header("Location: login.php");
+        }
     }
     else {
-        // If username and password are incorrect, redirect to login.php
-        $_SESSION['toast'] = "Username or password is incorrect";
-        $conn->close();
+        $stmt->close();
+        $_SESSION['toast'] = "Username does not exist";
         header("Location: login.php");
     }
 }

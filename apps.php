@@ -106,8 +106,7 @@ session_start();
     $user = $db_config['user'];
     $pass = $db_config['pass'];
     $db = $db_config['db'];
-    // $port = $db_config['port'];
-    $port = 3344;
+    $port = $db_config['port'];
 
     $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
@@ -165,7 +164,7 @@ session_start();
                                         echo '<p><a class="btn btn-danger" href="uninstall.php?id=' . $row['app_id'] . '">Remove</a></p>';
                                     }
                                     else {
-                                        echo '<p><a class="btn btn-primary" href="install.php?id=' . $row['app_id'] . '">Install</a></p>';
+                                        echo '<p><a class="btn btn-primary" href="actions/install.php?id=' . $row['app_id'] . '">Install</a></p>';
                                     }
                                     
                                     echo '</div>';

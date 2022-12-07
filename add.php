@@ -17,8 +17,7 @@
     $user = $db_config['user'];
     $pass = $db_config['pass'];
     $db = $db_config['db'];
-    // $port = $db_config['port'];
-    $port = 3344;
+    $port = $db_config['port'];
 
     $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
@@ -27,9 +26,16 @@
         $id = $_GET['id'];
 
         // Get user id from database
-        $sql = "SELECT user_id FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
-        $result_id = mysqli_query($conn, $sql);
-        $row_id = mysqli_fetch_assoc($result_id);
+        // $sql = "SELECT user_id FROM users WHERE user_name = '" . $_SESSION['username'] . "' LIMIT 1";
+        // $result_id = mysqli_query($conn, $sql);
+        // $row_id = mysqli_fetch_assoc($result_id);
+        // $user_id = $row_id['user_id'];
+        $sql = "SELECT user_id FROM users WHERE user_name = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $_SESSION['username']);
+        $stmt->execute();
+        $result_id = $stmt->get_result();
+        $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
 
         // Get maximum value of placed_column in added table

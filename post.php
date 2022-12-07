@@ -24,8 +24,7 @@ $host = $db_config['host'];
 $user = $db_config['user'];
 $pass = $db_config['pass'];
 $db = $db_config['db'];
-// $port = $db_config['port'];
-$port = 3344;
+$port = $db_config['port'];
 
 $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
