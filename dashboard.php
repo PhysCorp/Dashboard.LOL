@@ -187,12 +187,14 @@ session_start();
                             <?php
                             // If customize mode is enabled, show the customize form later
                             if (isset($_GET['customize']) && $_GET['customize'] == 1) {
+                                $_SESSION['customize'] = 1;
                                 echo '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="autorefresh"><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
                                 echo '<div class="alert alert-warning" role="alert"><h5><i data-feather="edit-2"></i> You are currently customizing the dashboard</h5>';
                                 echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#widgetaddmodal'><i data-feather='plus-square'></i> Modify Widget</button>";
                                 echo "</div>";
                             }
                             else {
+                                $_SESSION['customize'] = 0;
                                 echo '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="autorefresh" checked><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
                             }
 

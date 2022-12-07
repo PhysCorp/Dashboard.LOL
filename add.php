@@ -35,7 +35,7 @@
         $user_id = $row_id['user_id'];
 
         // Get maximum value of placed_column in added table
-        $sql = "SELECT MAX(placed_column AS max_column FROM added WHERE user_id = ?";
+        $sql = "SELECT MAX(placed_column) AS max_column FROM added WHERE user_id = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $user_id);
         $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
@@ -43,10 +43,13 @@
         $row_max = $result_max->fetch_assoc();
         $max_column = $row_max['max_column'];
 
+        // Increment max_column by 1
+        $max_column++;
+
         // Update added table at widget_id = $id, setting placed_column to $max_column + 1
         $sql = "UPDATE added SET placed_column = ? WHERE user_id = ? AND widget_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iii", ($max_column + 1), $user_id, $id);
+        $stmt->bind_param("iii", $max_column, $user_id, $id);
         $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
         $result = $stmt->get_result();
 

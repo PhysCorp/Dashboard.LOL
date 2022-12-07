@@ -3,15 +3,10 @@
 
 <?php
 // Debug
-// ini_set('display_errors', '1');
-// ini_set('display_startup_errors', '1');
-// error_reporting(E_ALL);
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
 session_start();
-// Get username from POST variable
-$username = $_POST['username'];
-
-// Get password from POST variable
-$password = $_POST['password'];
 
 // Get database info from json file in db_config.json
 $db_config = json_decode(file_get_contents('key/db_config.json'), true);
@@ -46,9 +41,11 @@ if ($conn) {
     $name = $_GET['name'];
     $description = $_GET['description'];
     $rating = $_GET['rating'];
+    $ratings_count = 0;
+    $count_users_enabled = 0;
     $sql = "INSERT INTO appstore (app_id, widget_id, name, description, ratings_count, rating, count_users_enabled) VALUES (?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iisssii", $widget_id, $widget_id, $name, $description, 0, $rating, 0);
+    $stmt->bind_param("iissidi", $widget_id, $widget_id, $name, $description, $ratings_count, $rating, $count_users_enabled);
     $result = $stmt->execute() or trigger_error($stmt->error);
 
 }

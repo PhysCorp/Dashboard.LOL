@@ -6,7 +6,14 @@ import os.path
 url = "http://127.0.0.1:8888/dashboard/post.php"
 username = "dashboard_agent"
 password = "thedashboardliveson"
-internal_name = ["stevewilson", "calculator", "dadjoke"]
+internal_name = []
+
+# get the list of html files in key/widgets
+for item in os.listdir(os.path.join("key", "widgets")):
+    # if the file is an html file
+    if item.endswith(".html"):
+        # add the file name to the internal_name list
+        internal_name.append(item.replace(".html", ""))
 
 for item in internal_name:
     # Write to console
@@ -18,7 +25,7 @@ for item in internal_name:
     append_data = ""
 
     # Alternatively, uncomment these two lines to retrieve data from file input.txt
-    with open(os.path.join("key", "widgets", str(item + ".php")), "r") as f:
+    with open(os.path.join("key", "widgets", str(item + ".html")), "r") as f:
         data = f.read()
 
     # Combine data sources
@@ -29,4 +36,3 @@ for item in internal_name:
 
     # Print the html response
     print(request.text)
-    

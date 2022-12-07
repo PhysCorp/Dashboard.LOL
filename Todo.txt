@@ -1,1 +1,2 @@
 + Change file structure - move certain files to "actions" folder
++ Move left/right buttons for widget

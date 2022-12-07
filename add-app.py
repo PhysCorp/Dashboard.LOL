@@ -1,8 +1,8 @@
 import re
 import requests
 
-username = "mwcurtis"
-password = "31013932"
+username = "dashboard_agent"
+password = "apikeysarecool"
 
 # Ask user for internal name
 internal_name = input("Internal name: ")
