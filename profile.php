@@ -122,6 +122,7 @@ session_start();
                                         <button type="submit" class="btn btn-primary" style="margin-top: 12px;"><i data-feather="save"></i> Save</button>
                                         <span style="display: inline-block; width: 6px;"></span>
                                         <a href="index.php" class="btn btn-secondary" style="margin-top: 12px;"><i data-feather="x"></i> Cancel</a>
+                                        <a href="mailto:physcorp@protonmail.com?subject=Dashboard.LOL%20Account%20Deletion%20Request&body=Hello%2C%0D%0A%0D%0APlease%20delete%20my%20user%20account%20for%20Dashboard.LOL%0D%0A%0D%0AThanks." class="btn btn-danger" style="margin-top: 12px;"><i data-feather="trash-2"></i> Request Account Deletion</a>
                                     </div>
                                 </div>
                             </form>

@@ -65,7 +65,7 @@ session_start();
                         <input autocomplete="off" type="password" class="form-control" id="password" name="password" placeholder="Password"
                             required>
                     </div>
-                    <p>Forgot password? <a href="mailto:mwcurtis@oakland.edu?subject=Dashboard.LOL%20Password%20Reset%20Request&body=I%20forgot%20my%20password%20to%20Dashboard.LOL.%20Please%20reset%20it%20and%20email%20me%20back.%20Thanks!">Click here</a></p>
+                    <p>Forgot password? <a href="mailto:physcorp@protonmail.com?subject=Dashboard.LOL%20Password%20Reset%20Request&body=I%20forgot%20my%20password%20to%20Dashboard.LOL.%20Please%20reset%20it%20and%20email%20me%20back.%20Thanks!">Click here</a></p>
                     <div class="d-grid gap-2 d-md-block" style="margin-top: 8px;">
                         <button type="submit" class="btn btn-primary"><i data-feather="user"></i> Login</button>
                     </div>
