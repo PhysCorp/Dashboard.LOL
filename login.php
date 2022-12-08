@@ -38,6 +38,7 @@ session_start();
                     <a class="nav-link disabled" href="#"><i data-feather="edit"></i> Customize</a>
                     <a class="nav-link disabled" href="#"><i data-feather="download"></i> App Store</a>
                     <a class="nav-link disabled" href="#"><i data-feather="info"></i> About</a>
+                    <a class="nav-link disabled" href="#"><i data-feather="user"></i> Profile</a>
                     <a class="nav-link active" href="#"><i data-feather="log-in"></i> Login / Sign Up</a>
                     <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard" target="_blank"><i data-feather="github"></i> GitHub</a>
                 </div>
