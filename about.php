@@ -46,7 +46,7 @@ session_start();
                     <a class="nav-link" href="apps.php"><i data-feather="download"></i><br>App Store</a>
                     <a class="nav-link active" href="#"><i data-feather="info"></i><br>About</a>
                     <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i><br>Logout</a>
-                    <a class="nav-link rightmost" href="https://github.com/PhysCorp" target="_blank"><i data-feather="github"></i><br>GitHub</a>
+                    <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard" target="_blank"><i data-feather="github"></i><br>GitHub</a>
                 </div>
             </div>
         </div>
@@ -81,7 +81,7 @@ session_start();
                             <break>
                             <h2><i data-feather="github"></i> About the GitHub Repository:</h2>
                             <p>
-                                The GitHub repository for this project can be found at <a href="https://www.github.com/physcorp/dashboardlol" target="_blank">https://www.github.com/physcorp/dashboardlol</a>. The repository contains the source code for the website, as well as the source code for the database. The website is written in PHP, HTML, and CSS, and the database is written in MySQL.
+                                The GitHub repository for this project can be found at <a href="https://www.github.com/PhysCorp/Dashboard" target="_blank">https://www.github.com/PhysCorp/Dashboard</a>. The repository contains the source code for the website, as well as the source code for the database. The website is written in PHP, HTML, and CSS, and the database is written in MySQL.
                             </p>
                             <break>
                             <h2><i data-feather="info"></i> Licensing:</h2>

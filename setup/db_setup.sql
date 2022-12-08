@@ -1,135 +1,116 @@
--- MySQL Workbench Forward Engineering
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
+--
+-- Host: localhost    Database: dashboard_lol
+-- ------------------------------------------------------
+-- Server version	8.0.30
 
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- -----------------------------------------------------
--- Schema dashboard_lol
--- -----------------------------------------------------
+--
+-- Table structure for table `added`
+--
 
--- -----------------------------------------------------
--- Schema dashboard_lol
--- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `dashboard_lol` DEFAULT CHARACTER SET utf8 ;
-USE `dashboard_lol` ;
-
--- -----------------------------------------------------
--- Table `dashboard_lol`.`Users`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`Users` (
-  `user_id` INT NOT NULL AUTO_INCREMENT,
-  `user_name` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
-  `num_of_columns` TINYINT(4) NOT NULL,
-  `user_first_name` VARCHAR(45) NOT NULL,
-  `user_last_name` VARCHAR(45) NOT NULL,
-  `user_email` VARCHAR(45) NOT NULL,
-  `user_phone_num` VARCHAR(10) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  UNIQUE INDEX `user_id_UNIQUE` (`user_id` ASC) VISIBLE,
-  UNIQUE INDEX `user_name_UNIQUE` (`user_name` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dashboard_lol`.`Widgets`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`Widgets` (
-  `widget_id` INT NOT NULL AUTO_INCREMENT,
-  `internal_name` VARCHAR(45) NOT NULL,
-  `data_dump` LONGTEXT NULL,
-  PRIMARY KEY (`widget_id`),
-  UNIQUE INDEX `widget_id_UNIQUE` (`widget_id` ASC) VISIBLE,
-  UNIQUE INDEX `internal_name_UNIQUE` (`internal_name` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dashboard_lol`.`Added`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`Added` (
-  `add_id` INT NOT NULL AUTO_INCREMENT COMMENT 'Which widgets the user has added to their dashboard',
-  `user_id` INT NOT NULL,
-  `widget_id` INT NOT NULL,
-  `placed_column` INT NOT NULL,
-  `order_in_column` INT NOT NULL,
+DROP TABLE IF EXISTS `added`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `added` (
+  `add_id` int NOT NULL AUTO_INCREMENT COMMENT 'Which widgets the user has added to their dashboard',
+  `user_id` int NOT NULL,
+  `widget_id` int NOT NULL,
+  `placed_column` int NOT NULL,
+  `order_in_column` int NOT NULL,
   PRIMARY KEY (`add_id`),
-  INDEX `fk_Added_Users_idx` (`user_id` ASC) VISIBLE,
-  INDEX `fk_Added_Widgets1_idx` (`widget_id` ASC) VISIBLE,
-  UNIQUE INDEX `add_id_UNIQUE` (`add_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Added_Users`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `dashboard_lol`.`Users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Added_Widgets1`
-    FOREIGN KEY (`widget_id`)
-    REFERENCES `dashboard_lol`.`Widgets` (`widget_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  UNIQUE KEY `add_id_UNIQUE` (`add_id`),
+  KEY `fk_Added_Users_idx` (`user_id`),
+  KEY `fk_Added_Widgets1_idx` (`widget_id`),
+  CONSTRAINT `fk_Added_Users` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  CONSTRAINT `fk_Added_Widgets1` FOREIGN KEY (`widget_id`) REFERENCES `widgets` (`widget_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Table structure for table `appstore`
+--
 
--- -----------------------------------------------------
--- Table `dashboard_lol`.`AppStore`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`AppStore` (
-  `app_id` INT NOT NULL AUTO_INCREMENT,
-  `widget_id` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `description` TEXT(500) NOT NULL,
-  `ratings_count` INT NOT NULL,
-  `rating` DOUBLE(2,1) NULL,
-  `count_users_enabled` INT NULL,
+DROP TABLE IF EXISTS `appstore`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `appstore` (
+  `app_id` int NOT NULL AUTO_INCREMENT,
+  `widget_id` int NOT NULL,
+  `name` varchar(45) NOT NULL,
+  `description` text NOT NULL,
+  `ratings_count` int NOT NULL,
+  `rating` double(2,1) DEFAULT NULL,
+  `count_users_enabled` int DEFAULT NULL,
   PRIMARY KEY (`app_id`),
-  INDEX `fk_AppStore_Widgets1_idx` (`widget_id` ASC) VISIBLE,
-  UNIQUE INDEX `app_id_UNIQUE` (`app_id` ASC) VISIBLE,
-  UNIQUE INDEX `widget_id_UNIQUE` (`widget_id` ASC) VISIBLE,
-  CONSTRAINT `fk_AppStore_Widgets1`
-    FOREIGN KEY (`widget_id`)
-    REFERENCES `dashboard_lol`.`Widgets` (`widget_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  UNIQUE KEY `app_id_UNIQUE` (`app_id`),
+  UNIQUE KEY `widget_id_UNIQUE` (`widget_id`),
+  KEY `fk_AppStore_Widgets1_idx` (`widget_id`),
+  CONSTRAINT `fk_AppStore_Widgets1` FOREIGN KEY (`widget_id`) REFERENCES `widgets` (`widget_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `num_of_columns` tinyint NOT NULL,
+  `user_first_name` varchar(255) NOT NULL,
+  `user_last_name` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
+  `user_phone_num` varchar(255) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`),
+  UNIQUE KEY `user_name_UNIQUE` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `widgets`
+--
+
+DROP TABLE IF EXISTS `widgets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `widgets` (
+  `widget_id` int NOT NULL AUTO_INCREMENT,
+  `internal_name` varchar(45) NOT NULL,
+  `data_dump` longtext,
+  PRIMARY KEY (`widget_id`),
+  UNIQUE KEY `widget_id_UNIQUE` (`widget_id`),
+  UNIQUE KEY `internal_name_UNIQUE` (`internal_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-12-07 19:41:50
 
 
--- -----------------------------------------------------
--- Table `dashboard_lol`.`IsChartwellsGood`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`IsChartwellsGood` (
-  `day_id` INT NOT NULL AUTO_INCREMENT,
-  `date` DATE NOT NULL,
-  `count_yes_votes` INT NOT NULL,
-  `count_no_votes` INT NOT NULL,
-  PRIMARY KEY (`day_id`),
-  UNIQUE INDEX `id_day_UNIQUE` (`day_id` ASC) VISIBLE,
-  UNIQUE INDEX `date_UNIQUE` (`date` ASC) VISIBLE)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `dashboard_lol`.`ToDoList`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `dashboard_lol`.`ToDoList` (
-  `note_id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
-  `note_text` TEXT(500) NULL,
-  `is_completed` TINYINT NULL,
-  PRIMARY KEY (`note_id`),
-  UNIQUE INDEX `note_id_UNIQUE` (`note_id` ASC) VISIBLE,
-  INDEX `fk_ToDoList_Users1_idx` (`user_id` ASC) VISIBLE,
-  CONSTRAINT `fk_ToDoList_Users1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `dashboard_lol`.`Users` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- Create a transaction to insert the data into the database
 START TRANSACTION;

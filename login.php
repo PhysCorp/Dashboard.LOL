@@ -39,7 +39,7 @@ session_start();
                     <a class="nav-link disabled" href="#"><i data-feather="download"></i><br>App Store</a>
                     <a class="nav-link disabled" href="#"><i data-feather="info"></i><br>About</a>
                     <a class="nav-link active" href="#"><i data-feather="log-in"></i><br>Login / Sign Up</a>
-                    <a class="nav-link rightmost" href="https://github.com/PhysCorp" target="_blank"><i data-feather="github"></i><br>GitHub</a>
+                    <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard" target="_blank"><i data-feather="github"></i><br>GitHub</a>
                 </div>
             </div>
         </div>
