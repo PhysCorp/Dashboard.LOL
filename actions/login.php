@@ -11,7 +11,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 // Get database info from json file in db_config.json
-$db_config = json_decode(file_get_contents('key/db_config.json'), true);
+$db_config = json_decode(file_get_contents('../private/db_config.json'), true);
 
 // Connect to database
 $host = $db_config['host'];
@@ -41,24 +41,24 @@ if ($conn) {
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $hashed_password;
             $_SESSION['toast'] = "Welcome back, $username!";
-            header("Location: dashboard.php");
+            header("Location: ../index.php");
         }
         else {
             $stmt->close();
             $_SESSION['toast'] = "Incorrect password";
-            header("Location: login.php");
+            header("Location: ../login.php");
         }
     }
     else {
         $stmt->close();
         $_SESSION['toast'] = "Username does not exist";
-        header("Location: login.php");
+        header("Location: ../login.php");
     }
 }
 else {
     die ("Connection failed: " . mysqli_connect_error());
     $_SESSION['toast'] = "Connection failed";
-    header('Location: login.php');
+    header('Location: ../login.php');
 }
 
 ?>

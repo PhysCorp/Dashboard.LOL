@@ -21,44 +21,6 @@ session_start();
     <link rel="icon" href="img/favicon.png" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <style>
-        body {
-            background-color: #000000;
-            background-image: url("./img/Background.png");
-        }
-
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-
-        .rightmost {
-            position: absolute;
-            top: 8px;
-            right: 16px;
-        }
-
-        .leftmost {
-            position: absolute;
-            top: 8px;
-            left: 16px;
-        }
-
-        .form-group {
-            margin-top: 8px;
-        }
-
-        .navbar-brand {
-            padding: 12px;
-        }
-
-        .col-md-4 {
-            margin-bottom: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -79,11 +41,11 @@ session_start();
                 <div class="navbar-nav">
                     <a class="navbar-brand" href="#"><img src="./img/favicon.png" alt="" width="32" height="32">
                         Dashboard.LOL</a>
-                    <a class="nav-link" href="dashboard.php"><i data-feather="home"></i><br>Home</a>
-                    <a class="nav-link" href="dashboard.php?customize=1"><i data-feather="edit"></i><br>Customize</a>
+                    <a class="nav-link" href="index.php"><i data-feather="home"></i><br>Home</a>
+                    <a class="nav-link" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>
                     <a class="nav-link active" href="#"><i data-feather="download"></i><br>App Store</a>
                     <a class="nav-link" href="about.php"><i data-feather="info"></i><br>About</a>
-                    <a class="nav-link" href="logout.php"><i data-feather="log-out"></i><br>Logout</a>
+                    <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i><br>Logout</a>
                     <a class="nav-link rightmost" href="https://github.com/PhysCorp" target="_blank"><i data-feather="github"></i><br>GitHub</a>
                 </div>
             </div>
@@ -99,7 +61,7 @@ session_start();
 
     <?php
     // Get database info from json file in db_config.json
-    $db_config = json_decode(file_get_contents('key/db_config.json'), true);
+    $db_config = json_decode(file_get_contents('private/db_config.json'), true);
 
     // Connect to database
     $host = $db_config['host'];
@@ -142,7 +104,6 @@ session_start();
                         <div class="h-100 p-5 bg-light border rounded-3">
                             <h2><i data-feather="download"></i> Available Widgets:</h2>
                             <?php
-                            // http://127.0.0.1:8888/database/debug-add-widget.php?internal_name=testing3&name=Police%20Report&description=OU%20Police%20Records&rating=5.0
                             // Loop through result_apps and display each app
                             $current_col = 0;
                             echo '<div class="container">';
@@ -170,7 +131,7 @@ session_start();
 
                                     // If widget_id and user_id are in the added table, display remove button
                                     if ($row_added) {
-                                        echo '<p><a class="btn btn-danger" href="uninstall.php?id=' . $row['app_id'] . '">Remove</a></p>';
+                                        echo '<p><a class="btn btn-danger" href="actions/uninstall.php?id=' . $row['app_id'] . '">Remove</a></p>';
                                     }
                                     else {
                                         echo '<p><a class="btn btn-primary" href="actions/install.php?id=' . $row['app_id'] . '">Install</a></p>';

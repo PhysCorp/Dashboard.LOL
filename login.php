@@ -21,44 +21,6 @@ session_start();
     <link rel="icon" href="img/favicon.png" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <style>
-        body {
-            background-color: #000000;
-            background-image: url("./img/Background.png");
-        }
-
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-
-        .rightmost {
-            position: absolute;
-            top: 8px;
-            right: 16px;
-        }
-
-        .leftmost {
-            position: absolute;
-            top: 8px;
-            left: 16px;
-        }
-
-        .form-group {
-            margin-top: 8px;
-        }
-
-        .navbar-brand {
-            padding: 12px;
-        }
-
-        .col-md-4 {
-            margin-bottom: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -91,7 +53,7 @@ session_start();
                 <p>Don't have an account? <a href="signup.php">Sign up here</a></p>
                 <!-- <a class="btn btn-secondary" href="signup.php" role="button"><i data-feather="user-plus"></i> Sign Up</a> -->
 
-                <form action="./checklogin.php" method="post">
+                <form action="actions/login.php" method="post">
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input autocomplete="off" type="text" class="form-control" id="username" name="username" placeholder="Username"

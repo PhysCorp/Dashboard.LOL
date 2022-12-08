@@ -21,44 +21,6 @@ session_start();
     <link rel="icon" href="img/favicon.png" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <style>
-        body {
-            background-color: #000000;
-            background-image: url("./img/Background.png");
-        }
-
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-
-        .rightmost {
-            position: absolute;
-            top: 8px;
-            right: 16px;
-        }
-
-        .leftmost {
-            position: absolute;
-            top: 8px;
-            left: 16px;
-        }
-
-        .form-group {
-            margin-top: 8px;
-        }
-
-        .navbar-brand {
-            padding: 12px;
-        }
-
-        .col-md-4 {
-            margin-bottom: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -79,11 +41,11 @@ session_start();
                 <div class="navbar-nav">
                     <a class="navbar-brand" href="#"><img src="./img/favicon.png" alt="" width="32" height="32">
                         Dashboard.LOL</a>
-                    <a class="nav-link" href="dashboard.php"><i data-feather="home"></i><br>Home</a>
-                    <a class="nav-link" href="dashboard.php?customize=1"><i data-feather="edit"></i><br>Customize</a>
+                    <a class="nav-link" href="index.php"><i data-feather="home"></i><br>Home</a>
+                    <a class="nav-link" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>
                     <a class="nav-link" href="apps.php"><i data-feather="download"></i><br>App Store</a>
                     <a class="nav-link active" href="#"><i data-feather="info"></i><br>About</a>
-                    <a class="nav-link" href="logout.php"><i data-feather="log-out"></i><br>Logout</a>
+                    <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i><br>Logout</a>
                     <a class="nav-link rightmost" href="https://github.com/PhysCorp" target="_blank"><i data-feather="github"></i><br>GitHub</a>
                 </div>
             </div>

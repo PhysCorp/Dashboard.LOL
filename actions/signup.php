@@ -13,7 +13,7 @@ $email = $_POST['email'];
 $phone_number = $_POST['phone_number'];
 
 // Get database info from json file in db_config.json
-$db_config = json_decode(file_get_contents('key/db_config.json'), true);
+$db_config = json_decode(file_get_contents('../private/db_config.json'), true);
 
 // Connect to database
 $host = $db_config['host'];
@@ -44,31 +44,31 @@ if ($conn) {
         $stmt->bind_param("ssissss", $username, $hashed_password, $num_of_columns, $first_name, $last_name, $email, $phone_number);
         $result = $stmt->execute() or trigger_error($stmt->error);
         if ($result) {
-            // If username and password are correct, set session variables and redirect to dashboard.php
+            // If username and password are correct, set session variables and redirect to index.php
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $hashed_password;
             $_SESSION['toast'] = "Signup successful. Welcome to Dashboard.lol, $username!";
             $stmt->close();
-            header("Location: dashboard.php");
+            header("Location: ../index.php");
         }
         else {
             // If user is not successfully inserted into database, redirect to signup.php
             $_SESSION['toast'] = "Signup failed";
             $stmt->close();
-            header("Location: signup.php");
+            header("Location: ../signup.php");
         }
     }
     else {
         // If username already exists, redirect to login.php
         $_SESSION['toast'] = "Username already exists";
         $stmt->close();
-        header("Location: login.php");
+        header("Location: ../login.php");
     }
 }
 else {
     die ("Connection failed: " . mysqli_connect_error());
     $_SESSION['toast'] = "Connection failed";
-    header('Location: signup.php');
+    header('Location: ../signup.php');
 }
 
 ?>

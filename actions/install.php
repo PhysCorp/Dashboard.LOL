@@ -37,7 +37,7 @@ session_start();
     }
 
     // Get database info from json file in db_config.json
-    $db_config = json_decode(file_get_contents('../key/db_config.json'), true);
+    $db_config = json_decode(file_get_contents('../private/db_config.json'), true);
 
     // Connect to database
     $host = $db_config['host'];

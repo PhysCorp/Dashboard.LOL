@@ -21,44 +21,6 @@ session_start();
     <link rel="icon" href="img/favicon.png" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
-    <style>
-        body {
-            background-color: #000000;
-            background-image: url("./img/Background.png");
-        }
-
-        .center {
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            width: 50%;
-        }
-
-        .rightmost {
-            position: absolute;
-            top: 8px;
-            right: 16px;
-        }
-
-        .leftmost {
-            position: absolute;
-            top: 8px;
-            left: 16px;
-        }
-
-        .form-group {
-            margin-top: 8px;
-        }
-
-        .navbar-brand {
-            padding: 12px;
-        }
-
-        .col-md-4 {
-            margin-bottom: 8px;
-        }
-    </style>
 </head>
 
 <body>
@@ -81,15 +43,15 @@ session_start();
                         Dashboard.LOL</a>
                     <!-- Check if GET var "customize" is set to 1 -->
                     <?php if (isset($_GET['customize']) && $_GET['customize'] == 1) { 
-                        echo '<a class="nav-link" href="dashboard.php"><i data-feather="home"></i><br>Home</a>';
-                        echo '<a class="nav-link active" href="dashboard.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
+                        echo '<a class="nav-link" href="index.php"><i data-feather="home"></i><br>Home</a>';
+                        echo '<a class="nav-link active" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
                     } else {
-                        echo '<a class="nav-link active" href="dashboard.php"><i data-feather="home"></i><br>Home</a>';
-                        echo '<a class="nav-link" href="dashboard.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
+                        echo '<a class="nav-link active" href="index.php"><i data-feather="home"></i><br>Home</a>';
+                        echo '<a class="nav-link" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
                     } ?>
                     <a class="nav-link" href="apps.php"><i data-feather="download"></i><br>App Store</a>
                     <a class="nav-link" href="about.php"><i data-feather="info"></i><br>About</a>
-                    <a class="nav-link" href="logout.php"><i data-feather="log-out"></i><br>Logout</a>
+                    <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i><br>Logout</a>
                     <a class="nav-link rightmost" href="https://github.com/PhysCorp" target="_blank"><i
                             data-feather="github"></i><br>GitHub</a>
                 </div>
@@ -106,7 +68,7 @@ session_start();
 
     <?php
     // Get database info from json file in db_config.json
-    $db_config = json_decode(file_get_contents('key/db_config.json'), true);
+    $db_config = json_decode(file_get_contents('private/db_config.json'), true);
 
     // Connect to database
     $host = $db_config['host'];
@@ -274,10 +236,10 @@ session_start();
 
                             // If row_added["placed_column"] is not 0
                             if ($row_added['placed_column'] == 0) {
-                                echo '<li class="list-group-item"><a style="" href="add.php?id=' . $widget_id . '"><i data-feather="plus-square"></i> ' . $row_appstore['name'] . '</a></li>';
+                                echo '<li class="list-group-item"><a style="" href="actions/add.php?id=' . $widget_id . '"><i data-feather="plus-square"></i> ' . $row_appstore['name'] . '</a></li>';
                             }
                             else {
-                                echo '<li class="list-group-item"><a style="" href="remove.php?id=' . $widget_id . '"><i data-feather="minus-square"></i> ' . $row_appstore['name'] . '</a></li>';
+                                echo '<li class="list-group-item"><a style="" href="actions/remove.php?id=' . $widget_id . '"><i data-feather="minus-square"></i> ' . $row_appstore['name'] . '</a></li>';
                             }
                             
                         }

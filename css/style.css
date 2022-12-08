@@ -1,6 +1,38 @@
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.rightmost {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+}
+
+.leftmost {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+}
+
+.form-group {
+    margin-top: 8px;
+}
+
+.navbar-brand {
+    padding: 12px;
+}
+
+.col-md-4 {
+    margin-bottom: 8px;
+}
+
 body {
-    background-color: #212121;
-    background-image: url("../img/Background.png");
+    background-color: #000000;
+    background-image: url("./img/Background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover

@@ -6,11 +6,11 @@
     session_start();
     // If username session var is not set or password is not set, redirect to login page
     if (!isset($_SESSION['username']) || !isset($_SESSION['password'])) {
-        header("Location: login.php");
+        header("Location: ../login.php");
     }
 
     // Get database info from json file in db_config.json
-    $db_config = json_decode(file_get_contents('key/db_config.json'), true);
+    $db_config = json_decode(file_get_contents('../private/db_config.json'), true);
 
     // Connect to database
     $host = $db_config['host'];
@@ -34,28 +34,16 @@
         $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
 
-        // Get maximum value of placed_column in added table
-        $sql = "SELECT MAX(placed_column) AS max_column FROM added WHERE user_id = ?";
+        // Update added table at widget_id = $id, setting placed_column to 0
+        $sql = "UPDATE added SET placed_column = 0 WHERE user_id = ? AND widget_id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
-        $result_max = $stmt->get_result();
-        $row_max = $result_max->fetch_assoc();
-        $max_column = $row_max['max_column'];
-
-        // Increment max_column by 1
-        $max_column++;
-
-        // Update added table at widget_id = $id, setting placed_column to $max_column + 1
-        $sql = "UPDATE added SET placed_column = ? WHERE user_id = ? AND widget_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iii", $max_column, $user_id, $id);
+        $stmt->bind_param("ii", $user_id, $id);
         $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
         $result = $stmt->get_result();
 
-        $_SESSION['toast'] = "App added successfully";
+        $_SESSION['toast'] = "App removed successfully";
         // echo "<script> window.close(); </script>";
-        header('Location: dashboard.php?customize=1');
+        header('Location: ../index.php?customize=1');
     }
     else {
         die ("Connection failed: " . mysqli_connect_error());

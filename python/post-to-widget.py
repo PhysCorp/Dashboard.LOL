@@ -3,13 +3,13 @@ import requests
 import os.path
 
 # Main variables
-url = "http://127.0.0.1:8888/dashboard/post.php"
+url = "http://127.0.0.1:8888/dashboard/actions/cli/post.php"
 username = "dashboard_agent"
 password = "thedashboardliveson"
 internal_name = []
 
-# get the list of html files in key/widgets
-for item in os.listdir(os.path.join("key", "widgets")):
+# get the list of html files in private/widgets
+for item in os.listdir(os.path.join("..", "private", "widgets")):
     # if the file is an html file
     if item.endswith(".html"):
         # add the file name to the internal_name list
@@ -25,7 +25,7 @@ for item in internal_name:
     append_data = ""
 
     # Alternatively, uncomment these two lines to retrieve data from file input.txt
-    with open(os.path.join("key", "widgets", str(item + ".html")), "r") as f:
+    with open(os.path.join("..", "private", "widgets", str(item + ".html")), "r") as f:
         data = f.read()
 
     # Combine data sources
