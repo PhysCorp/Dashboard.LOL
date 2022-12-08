@@ -8,8 +8,8 @@
 // error_reporting(E_ALL);
 session_start();
 
-$username = $_GET['username'];
-$password = $_GET['password'];
+$username = $_POST['username'];
+$password = $_POST['password'];
 
 // Get database info from json file in db_config.json
 $db_config = json_decode(file_get_contents('../../private/db_config.json'), true);
@@ -26,7 +26,7 @@ if ($username == $user && $password == $pass) {
 
     if ($conn) {
         // Add a widget to the database, getting name from GET variable
-        $widget_name = $_GET['internal_name'];
+        $widget_name = $_POST['internal_name'];
         $sql = "INSERT INTO widgets (internal_name) VALUES (?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $widget_name);
@@ -42,9 +42,9 @@ if ($username == $user && $password == $pass) {
         $widget_id = $row['widget_id'];
 
         // Add widget to appstore
-        $name = $_GET['name'];
-        $description = $_GET['description'];
-        $rating = $_GET['rating'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $rating = $_POST['rating'];
         $ratings_count = 0;
         $count_users_enabled = 0;
         $sql = "INSERT INTO appstore (app_id, widget_id, name, description, ratings_count, rating, count_users_enabled) VALUES (?, ?, ?, ?, ?, ?, ?)";

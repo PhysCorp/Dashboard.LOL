@@ -27,7 +27,7 @@ rating = float(rating)
 
 # Use requests to visit url with the following parameters:
 # internal_name, display_name, description, rating
-request = requests.get("http://127.0.0.1:8888/dashboard/add-widget.php", params = {"internal_name": internal_name, "name": name, "description": description, "rating": rating}, data={"username": username, "password": password})
+request = requests.post("http://127.0.0.1:8888/dashboard/actions/cli/add-widget.php", data={"internal_name": internal_name, "name": name, "description": description, "rating": rating, "username": username, "password": password})
 
 # Print the response
 # print(request.text)
