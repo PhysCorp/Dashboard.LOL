@@ -43,17 +43,17 @@ session_start();
                         Dashboard.LOL</a>
                     <!-- Check if GET var "customize" is set to 1 -->
                     <?php if (isset($_GET['customize']) && $_GET['customize'] == 1) { 
-                        echo '<a class="nav-link" href="index.php"><i data-feather="home"></i><br>Home</a>';
-                        echo '<a class="nav-link active" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
+                        echo '<a class="nav-link" href="index.php"><i data-feather="home"></i> Home</a>';
+                        echo '<a class="nav-link active" href="index.php?customize=1"><i data-feather="edit"></i> Customize</a>';
                     } else {
-                        echo '<a class="nav-link active" href="index.php"><i data-feather="home"></i><br>Home</a>';
-                        echo '<a class="nav-link" href="index.php?customize=1"><i data-feather="edit"></i><br>Customize</a>';
+                        echo '<a class="nav-link active" href="index.php"><i data-feather="home"></i> Home</a>';
+                        echo '<a class="nav-link" href="index.php?customize=1"><i data-feather="edit"></i> Customize</a>';
                     } ?>
-                    <a class="nav-link" href="apps.php"><i data-feather="download"></i><br>App Store</a>
-                    <a class="nav-link" href="about.php"><i data-feather="info"></i><br>About</a>
-                    <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i><br>Logout</a>
+                    <a class="nav-link" href="apps.php"><i data-feather="download"></i> App Store</a>
+                    <a class="nav-link" href="about.php"><i data-feather="info"></i> About</a>
+                    <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i> Logout</a>
                     <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard" target="_blank"><i
-                            data-feather="github"></i><br>GitHub</a>
+                            data-feather="github"></i> GitHub</a>
                 </div>
             </div>
         </div>
@@ -271,15 +271,27 @@ session_start();
 
     <script src="./js/bootstrap.bundle.min.js"></script>
 
-    <!-- <footer class="footer mt-auto py-3 bg-dark fixed-bottom">
+    <footer class="footer mt-auto py-3 bg-dark">
         <div class="container">
             <span class="text-muted">
-                <p style="text-align: center;">Copyright SAD IT GUYS 2022 | Icons retrieved from Feather icons,
+                <p style="text-align: center;">Copyright PHYSCORP 2022 | Icons retrieved from Feather icons,
                     which is under
-                    the MIT license <span class="badge bg-secondary">VER 22.10.2</span></p>
+                    the MIT license <span class="badge bg-secondary">VER 22.12.0</span></p>
             </span>
         </div>
-    </footer> -->
+        <div class="row align-items-md-stretch">
+            <div class="col-md-12">
+                <div class="h-100 p-5 bg-light border rounded-3" style="margin-bottom: 24px;">
+                    <h2 id="contact">PHYSCORP</h2>
+                    
+                    <a href="mailto:physcorp@protonmail.com" target="_blank" style="float: left;"><i
+                            data-feather="mail"></i> Email (physcorp@protonmail.com)</a>
+                    <a href="tel:810-412-8751" target="_blank" style="float: left; margin-left: 12px;"><i
+                            data-feather="phone"></i> Phone (810-412-8751)</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script>
         feather.replace()
