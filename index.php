@@ -82,13 +82,25 @@ session_start();
 
     if ($conn) {
         // Get user id from database
-        $sql = "SELECT user_id FROM users WHERE user_name = ? LIMIT 1";
+        $sql = "SELECT user_id, user_data FROM users WHERE user_name = ? LIMIT 1";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $_SESSION['username']);
         $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
         $result_id = $stmt->get_result();
         $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
+        
+        $user_data = $row_id['user_data'];
+
+        // If user_data is set in post, update user_data in database
+        if (isset($_POST['user_data'])) {
+            $user_data = $_POST['user_data'];
+            $sql = "UPDATE users SET user_data = ? WHERE user_id = ?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("si", $user_data, $user_id);
+            $stmt->execute() or trigger_error($stmt->error, E_USER_ERROR);
+            $_SESSION['toast'] = "Saved successfully!";
+        }
 
         // Get user from database
         $sql = "SELECT * FROM users WHERE user_id = ? LIMIT 1";
@@ -145,70 +157,84 @@ session_start();
 
                 <div class="row align-items-md-stretch">
                     <div class="col-md-12">
-                        <div class="h-100 p-5 bg-light border rounded-3">
-                            <h2><i data-feather="database"></i> Dashboard:</h2>
-                            <?php
-                            // If customize mode is enabled, show the customize form later
-                            if (isset($_GET['customize']) && $_GET['customize'] == 1) {
-                                $_SESSION['customize'] = 1;
-                                echo '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="autorefresh"><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
-                                echo '<div class="alert alert-warning" role="alert"><h5><i data-feather="edit-2"></i> You are currently customizing the dashboard</h5>';
-                                echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#widgetaddmodal'><i data-feather='plus-square'></i> Modify Widget</button>";
-                                echo "</div>";
-                            }
-                            else {
-                                $_SESSION['customize'] = 0;
-                                echo '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="autorefresh" checked><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
-                            }
+                        <form id="mainform" name="mainform">
+                            <div class="h-100 p-5 bg-light border rounded-3">
+                                <h2><i data-feather="database"></i> Dashboard:</h2>
+                                <p><italic>Please click <a href="index.php?customize=1">"Customize"</a> to edit/add the content on your dashboard!</italic></p>
+                                <input type="hidden" id="user_data" name="user_data" value='<?php echo $user_data; ?>'>
+                                <?php
+                                // If customize mode is enabled, show the customize form later
+                                if (isset($_GET['customize']) && $_GET['customize'] == 1) {
+                                    $_SESSION['customize'] = 1;
+                                    echo '<div class="form-check"><input class="form-check-input" type="checkbox" id="autorefresh" name="autorefresh" value=""><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
+                                    echo '<div class="alert alert-warning" role="alert"><h5><i data-feather="edit-2"></i> You are currently customizing the dashboard</h5>';
+                                    echo "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#widgetaddmodal'><i data-feather='plus-square'></i> Modify Widget (reloads window)</button>";
+                                    echo "<span style='display: inline-block; width: 6px;'></span>";
+                                    echo "<button type='button' class='btn btn-success' onclick='checkSave()'><i data-feather='save'></i> Save</button>";
+                                    echo "<span style='display: inline-block; width: 6px;'></span>";
+                                    echo "<a href='index.php' class='btn btn-secondary'><i data-feather='x'></i> Cancel</a>";
+                                    echo "</div>";
+                                }
+                                else {
+                                    $_SESSION['customize'] = 0;
+                                    echo '<div class="form-check"><input class="form-check-input" type="checkbox" value="" id="autorefresh" name="autorefresh" checked><label class="form-check-label" for="autorefresh">Refresh page every min</label></div>';
+                                }
 
-                            // Loop through result_apps and display each app
-                            $current_col = 0;
-                            echo '<div class="container">';
+                                // Loop through result_apps and display each app
+                                $current_col = 0;
+                                echo '<div class="container">';
 
-                            while ($row_added = mysqli_fetch_assoc($result_1st_added)) {
-                                // While $current_col is less than $num_of_columns
-                                if ($current_col < $num_of_columns) {
-                                    // If $current_col is 0, start a new row
-                                    if ($current_col == 0) {
-                                        echo '<div class="row">';
-                                    }
-
-                                    $row_join = mysqli_fetch_assoc($result_join);
-
-                                    // Display widget
-                                    if ($row_join['placed_column'] != 0) {
-                                        echo '<div class="col">';
-                                        echo '<div class="card">';
-                                        if (isset($_GET['customize']) && $_GET['customize'] == 1) {
-                                            echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . ' <a href="actions/remove.php?id=' . $row_join['widget_id'] . '"><i data-feather="x-circle"></i></a> <a href="actions/moveleft.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-left-circle"></i></a> <a href="actions/moveright.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-right-circle"></i></a></h5>';
-                                        } else {
-                                            echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . '</h5>';
+                                while ($row_added = mysqli_fetch_assoc($result_1st_added)) {
+                                    // While $current_col is less than $num_of_columns
+                                    if ($current_col < $num_of_columns) {
+                                        // If $current_col is 0, start a new row
+                                        if ($current_col == 0) {
+                                            echo '<div class="row">';
                                         }
 
-                                        echo '<div class="card-body">';
-                                        if (isset($_GET['customize']) && $_GET['customize'] == 1) {
-                                            echo '<p class="card-text">' . $row_join['description'] . '</p>';
-                                        }
-                                        echo $row_join['data_dump'];
-                                        echo '</div>';
-                                        echo '</div>';
-                                        echo '</div>';
-                                    }
+                                        $row_join = mysqli_fetch_assoc($result_join);
 
-                                    // Increment $current_col
-                                    $current_col++;
-                                    // If $current_col is $num_of_columns, end the row
-                                    if ($current_col == $num_of_columns) {
-                                        echo '</div>';
-                                        // Reset $current_col
-                                        $current_col = 0;
+                                        // Display widget
+                                        if ($row_join['placed_column'] != 0) {
+                                            echo '<div class="col">';
+                                            echo '<div class="card">';
+                                            if (isset($_GET['customize']) && $_GET['customize'] == 1) {
+                                                echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . ' <a href="actions/remove.php?id=' . $row_join['widget_id'] . '"><i data-feather="x-circle"></i></a> <a href="actions/moveleft.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-left-circle"></i></a> <a href="actions/moveright.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-right-circle"></i></a></h5>';
+                                            } else {
+                                                echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . '</h5>';
+                                            }
+
+                                            echo '<div class="card-body">';
+                                            if (isset($_GET['customize']) && $_GET['customize'] == 1) {
+                                                echo '<p class="card-text">' . $row_join['description'] . '</p>';
+                                            }
+                                            echo $row_join['data_dump'];
+                                            echo '</div>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                        }
+
+                                        // Increment $current_col
+                                        $current_col++;
+                                        // If $current_col is $num_of_columns, end the row
+                                        if ($current_col == $num_of_columns) {
+                                            echo '</div>';
+                                            // Reset $current_col
+                                            $current_col = 0;
+                                        }
                                     }
                                 }
-                            }
-                            echo '</div>';
-                            ?>
+                                echo '</div>';
+                                // If customize mode is NOT enabled, disable all input tags
+                                if (!isset($_GET['customize']) || $_GET['customize'] == 0) {
+                                    // echo '<script>document.querySelectorAll("input").forEach(function (el) { el.disabled = true; });</script>';
+                                    // echo '<script>document.querySelectorAll("input").forEach(function (el) { if (el.type == "text") { el.disabled = true; } });</script>';
+                                    echo '<script>document.querySelectorAll("input").forEach(function (el) { if (el.name.startsWith("save_")) { el.disabled = true; } });</script>';
+                                }
+                                ?>
 
-                        </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -288,7 +314,7 @@ session_start();
             <div class="col-md-12">
                 <div class="h-100 p-5 bg-light border rounded-3" style="margin-bottom: 24px;">
                     <h2 id="contact">PHYSCORP</h2>
-                    
+
                     <a href="mailto:physcorp@protonmail.com" target="_blank" style="float: left;"><i
                             data-feather="mail"></i> Email (physcorp@protonmail.com)</a>
                     <a href="tel:810-412-8751" target="_blank" style="float: left; margin-left: 12px;"><i
@@ -321,6 +347,50 @@ session_start();
                 location.reload();
             }
         }, 60000);
+    </script>
+
+    <!-- Combine all other input fields and names into JSON for user_data field -->
+    <script>
+        function checkSave() {
+            var user_data = {};
+            var inputs = document.querySelectorAll("input");
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "text" || inputs[i].type == "number") {
+                    // If the name of the input starts with "save_", add it to user_data
+                    if (inputs[i].name.startsWith("save_")) {
+                        user_data[inputs[i].name] = inputs[i].value;
+                    }
+                }
+            }
+            document.getElementById("user_data").value = JSON.stringify(user_data);
+
+            // Make post request to index.php
+            var form = document.getElementById("mainform");
+            var request = new XMLHttpRequest();
+            request.open("POST", "index.php");
+            request.send(new FormData(form));
+            window.location.href = "index.php";
+        }
+        function loadSave() {
+            var user_data = JSON.parse(document.getElementById("user_data").value);
+            var inputs = document.querySelectorAll("input");
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].type == "text" || inputs[i].type == "number") {
+                    // If user_data[inputs[i].name] is not undefined, set input value to user_data[inputs[i].name]
+                    if (user_data[inputs[i].name] != undefined) {
+                        // If inputs[i].name begins with "save_", set input value to user_data[inputs[i].name]
+                        if (inputs[i].name.startsWith("save_")) {
+                            inputs[i].value = user_data[inputs[i].name];
+                        }
+                    }
+                }
+            }
+            // Set user_data to empty string
+            document.getElementById("user_data").value = "";
+        }
+
+        // Call loadSave() on page load
+        loadSave();
     </script>
 
 </body>

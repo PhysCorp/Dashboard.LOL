@@ -8,7 +8,7 @@ username = "dashboard_agent"
 password = "thedashboardliveson"
 internal_name = []
 
-# get the list of html files in private/widgets
+# get the list of html files in ../private/widgets
 for item in os.listdir(os.path.join("..", "private", "widgets")):
     # if the file is an html file
     if item.endswith(".html"):
