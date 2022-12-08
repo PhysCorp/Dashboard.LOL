@@ -178,13 +178,17 @@ session_start();
                                     if ($row_join['placed_column'] != 0) {
                                         echo '<div class="col">';
                                         echo '<div class="card">';
-                                        echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . '</h5>';
+                                        if (isset($_GET['customize']) && $_GET['customize'] == 1) {
+                                            echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . ' <a href="actions/remove.php?id=' . $row_join['widget_id'] . '"><i data-feather="x-circle"></i></a> <a href="actions/moveleft.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-left-circle"></i></a> <a href="actions/moveright.php?id=' . $row_join['widget_id'] . '"><i data-feather="arrow-right-circle"></i></a></h5>';
+                                        } else {
+                                            echo '<h5 class="card-header"><i data-feather="git-commit"></i> ' . $row_join['name'] . '</h5>';
+                                        }
+
                                         echo '<div class="card-body">';
                                         if (isset($_GET['customize']) && $_GET['customize'] == 1) {
                                             echo '<p class="card-text">' . $row_join['description'] . '</p>';
                                         }
                                         echo $row_join['data_dump'];
-                                        // echo '<p><a class="btn btn-primary" target="_blank" href="actions/install.php?id=' . $row['app_id'] . '">Install</a></p>';
                                         echo '</div>';
                                         echo '</div>';
                                         echo '</div>';
