@@ -21,16 +21,16 @@ Every day, people consume a wide variety of information online. Rather than view
 ![About](./promotional/about.png)
 
 # Directory Structure
-`actions` - Contains all of the PHP files that handle user actions, such as logging in, signing up, and logging out.
-`css` - Contains all of the CSS files that style the web pages.
-`img` - Contains all of the images used in the web pages.
-`js` - Contains all of the JavaScript files that handle the dynamic functionality of the web pages.
-`misc` - Contains miscellaneous files, such as the Icon, Header, and Favicon files for editing in GIMP.
-`private` - Contains all of the files that are not accessible to the public, such as the database configuration file and the HTML widgets directory.
-`promotional` - Contains all of the promotional images used in this README.
-`python` - Contains some Python scripts for adding widgets to the app store and posting HTML to the database.
-`setup` - Contains the database setup file, as well as a script to link this directory to Bitnami WAMP (Windows only).
-`/` - Contains all of the web pages, such as the login page, the dashboard page, and the app store page, as well as our presentation, ERD, and license.
+- `actions` - Contains all of the PHP files that handle user actions, such as logging in, signing up, and logging out.
+- `css` - Contains all of the CSS files that style the web pages.
+- `img` - Contains all of the images used in the web pages.
+- `js` - Contains all of the JavaScript files that handle the dynamic functionality of the web pages.
+- `misc` - Contains miscellaneous files, such as the Icon, Header, and Favicon files for editing in GIMP.
+- `private` - Contains all of the files that are not accessible to the public, such as the database configuration file and the HTML widgets directory.
+- `promotional` - Contains all of the promotional images used in this README.
+- `python` - Contains some Python scripts for adding widgets to the app store and posting HTML to the database.
+- `setup` - Contains the database setup file, as well as a script to link this directory to Bitnami WAMP (Windows only).
+- `/` - Contains all of the web pages, such as the login page, the dashboard page, and the app store page, as well as our presentation, ERD, and license.
 
 ## Usage
 ### Login
