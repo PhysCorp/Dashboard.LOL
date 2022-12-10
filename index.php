@@ -316,7 +316,7 @@ session_start();
     <footer class="footer mt-auto py-3 bg-dark">
         <div class="container">
             <span class="text-muted">
-                <p style="text-align: center;">Copyright PHYSCORP 2022 | Icons retrieved from Feather icons,
+                <p style="text-align: center;">Copyright SAD IT GUYS 2022 | Icons retrieved from Feather icons,
                     which is under
                     the MIT license <span class="badge bg-secondary">VER 22.12.0</span></p>
             </span>
