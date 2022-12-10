@@ -20,7 +20,7 @@ Every day, people consume a wide variety of information online. Rather than view
 ![PersonalInfo](./promotional/personalinfo.png)
 ![About](./promotional/about.png)
 
-# Directory Structure
+## Directory Structure
 - `actions` - Contains all of the PHP files that handle user actions, such as logging in, signing up, and logging out.
 - `css` - Contains all of the CSS files that style the web pages.
 - `img` - Contains all of the images used in the web pages.
