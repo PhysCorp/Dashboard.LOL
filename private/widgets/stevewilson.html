@@ -1,1 +1,16 @@
-<img src="https://moodle.oakland.edu/pluginfile.php/6941179/user/icon/ou_boost/f3">
+<body>
+    <div>
+        <img src="https://steverw.com/assets/img/prof_pic.jpg" width="250">
+        <p>You have appreciated him <span id="counter">0</span> times.</p>
+        <button onclick="incrementCounter()" type="button" class="btn btn-primary">Appreciate</button>
+        <script>
+            var count = 0;
+            var num = document.getElementById('counter');
+    
+            function incrementCounter() {
+                count++;
+                num.innerHTML = count;
+            }
+        </script>
+    </div>
+</body>

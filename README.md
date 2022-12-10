@@ -1,5 +1,24 @@
 # Dashboard
-Bruh
+A customizable frontend for your data-driven applications!
+
+![Header](./promotional/header.png)
+
+## Features
+- App store that allows you to choose which widgets to install/remove.
+- Customizable widgets that can be added to your dashboard, such as:
+  - Time and date
+  - WEPA Printer availability
+  - Recent news articles
+  - Motivational quotes
+  - and more!
+
+![Dashboard](./promotional/dashboard.png)
+![Appstore](./promotional/appstore.png)
+![PersonalInfo](./promotional/personalinfo.png)
+![About](./promotional/about.png)
+
+## Usage
+
 
 ## Installation
 
@@ -9,7 +28,3 @@ Bruh
 
 ## TODO
 - Add more widgets
-- "user_data" implementation, with the following note:
-
-Get user_data string from database, then use PHP to set session variable and Java variable.
-Every time user goes to customize mode and hits save, it grabs that string from hidden text box and puts in database. 

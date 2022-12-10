@@ -12,6 +12,8 @@ $first_name = $_POST['first_name'];
 $last_name = $_POST['last_name'];
 $email = $_POST['email'];
 $phone_number = $_POST['phone_number'];
+$num_of_columns = $_POST['num_of_columns'];
+$num_of_columns = (int)$num_of_columns;
 
 // Get database info from json file in db_config.json
 $db_config = json_decode(file_get_contents('../private/db_config.json'), true);
@@ -27,9 +29,9 @@ $conn = mysqli_connect ($host, $user, $pass, $db, $port);
 
 if ($conn) {
     // Update user info
-    $sql = "UPDATE users SET user_first_name = ?, user_last_name = ?, user_email = ?, user_phone_num = ? WHERE user_name = ?";
+    $sql = "UPDATE users SET user_first_name = ?, user_last_name = ?, user_email = ?, user_phone_num = ?, num_of_columns = ? WHERE user_name = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $first_name, $last_name, $email, $phone_number, $username);
+    $stmt->bind_param("ssssis", $first_name, $last_name, $email, $phone_number, $num_of_columns, $username);
     $stmt->execute() or trigger_error($stmt->error);
     $stmt->close();
 

@@ -90,7 +90,12 @@ session_start();
         $row_id = $result_id->fetch_assoc();
         $user_id = $row_id['user_id'];
         
+        // Get user_data from database
         $user_data = $row_id['user_data'];
+        // Remove all ' from user_data
+        $user_data = str_replace("'", "\'", $user_data);
+        // Set global variable in javascript to user_data
+        echo '<script>var user_data = \'' . $user_data . '\';</script>';
 
         // If user_data is set in post, update user_data in database
         if (isset($_POST['user_data'])) {
@@ -160,8 +165,11 @@ session_start();
                         <form id="mainform" name="mainform">
                             <div class="h-100 p-5 bg-light border rounded-3">
                                 <h2><i data-feather="database"></i> Dashboard:</h2>
-                                <p><italic>Please click <a href="index.php?customize=1">"Customize"</a> to edit/add the content on your dashboard!</italic></p>
-                                <input type="hidden" id="user_data" name="user_data" value='<?php echo $user_data; ?>'>
+                                <p>
+                                    <italic>Please click <a href="index.php?customize=1">"Customize"</a> to edit/add the
+                                        content on your dashboard!</italic>
+                                </p>
+                                <input type="hidden" id="user_data" name="user_data" value=''>
                                 <?php
                                 // If customize mode is enabled, show the customize form later
                                 if (isset($_GET['customize']) && $_GET['customize'] == 1) {
@@ -212,6 +220,9 @@ session_start();
                                             echo '</div>';
                                             echo '</div>';
                                             echo '</div>';
+
+                                            // Call loadSave() function from javascript
+                                            // echo '<script>loadSave();</script>';
                                         }
 
                                         // Increment $current_col
@@ -355,12 +366,12 @@ session_start();
             var user_data = {};
             var inputs = document.querySelectorAll("input");
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "text" || inputs[i].type == "number") {
-                    // If the name of the input starts with "save_", add it to user_data
-                    if (inputs[i].name.startsWith("save_")) {
-                        user_data[inputs[i].name] = inputs[i].value;
-                    }
+                // if (inputs[i].type == "text" || inputs[i].type == "number") {
+                // If the name of the input starts with "save_", add it to user_data
+                if (inputs[i].name.startsWith("save_")) {
+                    user_data[inputs[i].name] = inputs[i].value;
                 }
+                // }
             }
             document.getElementById("user_data").value = JSON.stringify(user_data);
 
@@ -371,26 +382,40 @@ session_start();
             request.send(new FormData(form));
             window.location.href = "index.php";
         }
+
         function loadSave() {
-            var user_data = JSON.parse(document.getElementById("user_data").value);
+            var user_data_parsed = JSON.parse(user_data);
             var inputs = document.querySelectorAll("input");
+            var newstring;
             for (var i = 0; i < inputs.length; i++) {
-                if (inputs[i].type == "text" || inputs[i].type == "number") {
-                    // If user_data[inputs[i].name] is not undefined, set input value to user_data[inputs[i].name]
-                    if (user_data[inputs[i].name] != undefined) {
-                        // If inputs[i].name begins with "save_", set input value to user_data[inputs[i].name]
-                        if (inputs[i].name.startsWith("save_")) {
-                            inputs[i].value = user_data[inputs[i].name];
+                // If user_data_parsed[inputs[i].name] is not undefined, set input value to user_data_parsed[inputs[i].name]
+                if (user_data_parsed[inputs[i].name] != undefined) {
+                    // If inputs[i].name begins with "save_", set input value to user_data_parsed[inputs[i].name]
+                    console.log(inputs[i].name);
+                    console.log(user_data_parsed[inputs[i].name]);
+                    if (inputs[i].name.startsWith("save_")) {
+                        if (inputs[i].type == "text" || inputs[i].type == "number") {
+                            // Strip all non-alphanumeric characters, except spaces, from user_data_parsed[inputs[i].name]
+                            newstring = user_data_parsed[inputs[i].name].replace(/[^a-zA-Z0-9 ]/g, "");
+                            inputs[i].value = newstring;
+                        }
+                        if (inputs[i].type == "checkbox") {
+                            if (user_data_parsed[inputs[i].name] == "1") {
+                                inputs[i].checked = true;
+                            } else {
+                                inputs[i].checked = false;
+                            }
                         }
                     }
                 }
             }
-            // Set user_data to empty string
-            document.getElementById("user_data").value = "";
+            
         }
-
         // Call loadSave() on page load
         loadSave();
+
+        // Set user_data to empty string
+        document.getElementById("user_data").value = "";
     </script>
 
 </body>

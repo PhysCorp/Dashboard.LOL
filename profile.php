@@ -118,6 +118,10 @@ session_start();
                                         <label for="phone_number" class="form-label>">Phone Number</label>
                                         <input type="text" class="form-control" id="phone_number" name="phone_number"
                                             value="<?php echo $row['user_phone_num']; ?>">
+
+                                        <label for="num_of_columns" class="form-label>">Number of Columns</label>
+                                        <input type="number" class="form-control" id="num_of_columns" name="num_of_columns"
+                                            value="<?php echo $row['num_of_columns']; ?>">
                                         
                                         <button type="submit" class="btn btn-primary" style="margin-top: 12px;"><i data-feather="save"></i> Save</button>
                                         <span style="display: inline-block; width: 6px;"></span>
