@@ -73,12 +73,14 @@ Every day, people consume a wide variety of information online. Rather than view
 - A web server with PHP 7.4 or newer and MySQL 8.0 or newer. We recommend using a LAMP stack (detailed below).
 - LAMP stack setup. If you don't have one, you can follow this tutorial: https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04
 - Python 3.8 or newer. You can install it with `sudo apt install python3` on Ubuntu or `sudo yum install python3` on CentOS.
+- PIP package manager. You can install it with `sudo apt install python3-pip` on Ubuntu or `sudo yum install python3-pip` on CentOS.
 
 ### Setup
 1. Clone the repository to your web server's root directory (or any other directory you want to run the application from). An example directory is `/var/www/html/dashboard`.
 2. Create a database named `dashboard_lol` and import the `db_setup.sql` file found in the `setup` directory.
 3. Create a user named `dashboard_agent` with the password `thedashboardliveson` and grant all privileges to the `dashboard` database. Alternatively, give a username and password of your choice.
 4. Change the parameters in the `db_config.json` file from `private` to the appropriate values for your database.
+5. Setup the prerequisites for the Python widgets. Run `pip3 install -r requirements.txt` in the `python` directory.
 
 ### Configuration
 1. To add a new widget to the app store, run the `add-app.py` file in the `python` folder.
