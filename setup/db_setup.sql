@@ -45,7 +45,7 @@ CONSTRAINT `fk_AppStore_Widgets1` FOREIGN KEY (`widget_id`) REFERENCES `widgets`
 
 DROP TABLE IF EXISTS `added`;
 CREATE TABLE `added` (
-`add_id` int NOT NULL,
+`add_id` int NOT NULL AUTO_INCREMENT,
 `user_id` int NOT NULL,
 `widget_id` int NOT NULL,
 `placed_column` int NOT NULL,

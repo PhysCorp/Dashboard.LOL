@@ -1,24 +1,17 @@
-import requests
-from api import SPOTIFY_OAUTH_TOKEN
+import spotipy
+from api import SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+from spotipy.oauth2 import SpotifyClientCredentials
 from yattag import Doc
-
-#Top Songs - USA
-#https://open.spotify.com/playlist/37i9dQZEVXbLp5XoPON0wI
+import dashboard
 
 playlist_id = '37i9dQZEVXbLp5XoPON0wI'
-songs_to_show = 5
+items_to_show = 5
 
-url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?market=US&fields=items(track(name,artists(name),external_urls(spotify)))&limit={songs_to_show}'
+print('[spotify] Connecting to Spotify...')
+sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET))
 
-headers = {
-    'Authorization': f'Bearer {SPOTIFY_OAUTH_TOKEN}',
-    'Content-Type': 'application/json'
-}
-
-response = requests.get(url, headers=headers)
-print(response.status_code)
-data = response.json()
-print(data)
+print('[spotify] Fetching playlist...')
+data = sp.playlist_items(playlist_id=playlist_id, fields='items(track(name,artists(name),external_urls(spotify),album(images)))', limit=items_to_show, market='US')
 
 trending_tracks = []
 for item in data['items']:
@@ -28,9 +21,11 @@ for item in data['items']:
         artists.append(artist['name'])
     track_artist_string = ', '.join(artists)
     track_link = item['track']['external_urls']['spotify']
-    track_tup = (track_name, track_artist_string, track_link)
+    track_album_art_link = item['track']['album']['images'][2]['url']
+    track_tup = (track_name, track_artist_string, track_link, track_album_art_link)
     trending_tracks.append(track_tup)
 
+print('[spotify] Writing HTML...')
 doc, tag, text = Doc().tagtext()
 with tag('p'):
     text('Top 5 Songs in the USA in the past week (via Spotify)')
@@ -40,6 +35,8 @@ with tag('table', klass='table table-striped table-hover'):
             with tag('th'):
                 text('No.')
             with tag('th'):
+                text('')
+            with tag('th'):
                 text('Artist(s)')
             with tag('th'):
                 text('Song Title')
@@ -47,12 +44,12 @@ with tag('table', klass='table table-striped table-hover'):
                 text('')
             for i, track in enumerate(trending_tracks):
                 num = i + 1
-                track_name = track[0]
-                track_artist_string = track[1]
-                track_link = track[2]
+                track_name, track_artist_string, track_link, track_album_art_link = track
                 with tag('tr'):
                     with tag('td'):
                         text(num)
+                    with tag('td'):
+                        doc.stag('img', src=track_album_art_link, width=52)
                     with tag('td'):
                         text(track_artist_string)
                     with tag('td'):
@@ -61,5 +58,6 @@ with tag('table', klass='table table-striped table-hover'):
                         with tag('a', klass='btn btn-primary', href=track_link, target='_blank'):
                             text('Link')
 html = doc.getvalue()
-
-request = requests.post('http://127.0.0.1/dashboard/actions/cli/post.php', data={"username": 'dashboard_agent', "password": 'thedashboardliveson', "internal_name": 'spotify', "data": html})
+print('[spotify] Posting to widget...')
+post = dashboard.post_to_widget('spotify', html)
+print(post)

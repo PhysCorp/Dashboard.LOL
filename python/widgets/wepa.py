@@ -1,17 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
 from yattag import Doc
+import dashboard
 
+print('[wepa] Fetching wepa dashboard...')
 url = 'https://cs.wepanow.com/000OAKLAND215.html'
 page = requests.get(url)
 soup = BeautifulSoup(page.content, "html.parser")
 
 tables = soup.find_all('table', {'class': 'ps-table'})
-
 sadit_table = tables[5]
-
 table_body = sadit_table.find_all('tbody')[0]
-
 status_rows = table_body.find_all('tr')[0::2]
 
 printers = []
@@ -35,9 +34,9 @@ for row in status_rows:
         color_string = 'Green'
 
     status = (printer_code, color_string, status_message)
-    
     printers.append(status)
 
+print('[wepa] Writing HTML...')
 doc, tag, text = Doc().tagtext()
 with tag('table', klass='table table-striped table-hover'):
     with tag('tbody'):
@@ -68,4 +67,6 @@ with tag('table', klass='table table-striped table-hover'):
                         text(status_message)
 
 html = doc.getvalue()
-request = requests.post('http://127.0.0.1/dashboard/actions/cli/post.php', data={"username": 'dashboard_agent', "password": 'thedashboardliveson', "internal_name": 'wepa', "data": html})
+print('[wepa] Posting to widget...')
+post = dashboard.post_to_widget('wepa', html)
+print(post)

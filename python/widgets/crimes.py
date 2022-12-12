@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from yattag import Doc
+import dashboard
 SLASH_CODE = f'%2F'
 
 crime_table = None
@@ -15,10 +16,9 @@ while results_found == False:
         start_date = end_date - timedelta(days=7 * (offset + 1))
         end_date_url = end_date.strftime('%Y/%#m/%#d').replace('/', SLASH_CODE)
         start_date_url = start_date.strftime('%Y/%#m/%#d').replace('/', SLASH_CODE)
-
         url = f'https://oupolice.com/clery/activity-log/?crimemonth={start_date_url}&crimemonth2={end_date_url}'
-        print(f'Getting activity for {start_date.strftime("%#m/%#d/%Y")} - {end_date.strftime("%#m/%#d/%Y")}')
-        print(f'Querying: {url}')
+        print(f'[crimes] Getting activity for {start_date.strftime("%#m/%#d/%Y")} - {end_date.strftime("%#m/%#d/%Y")}')
+        print(f'[crimes] Querying: {url}')
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         crime_table = soup.find_all('table', {'class': 'crimetable'})[0]
@@ -32,6 +32,7 @@ heading = crime_table.find_all('tr')[0]
 crime_rows = crime_table.find_all('tr')[1:]
 most_recent_five = crime_rows[-5:]
 
+print('[crimes] Writing HTML...')
 doc, tag, text = Doc().tagtext()
 with tag('p'):
     text('5 most recent activity entries reported by OUPD:')
@@ -57,5 +58,6 @@ with tag('table', klass='table table-striped table-hover'):
                     with tag('td'):
                         text(address)
 html = doc.getvalue()
-
-request = requests.post('http://127.0.0.1/dashboard/actions/cli/post.php', data={"username": 'dashboard_agent', "password": 'thedashboardliveson', "internal_name": 'crimes', "data": html})
+print('[crimes] Posting to widget...')
+post = dashboard.post_to_widget('crimes', html)
+print(post)
