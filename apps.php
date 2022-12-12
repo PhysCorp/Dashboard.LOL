@@ -47,7 +47,7 @@ session_start();
                     <a class="nav-link" href="about.php"><i data-feather="info"></i> About</a>
                     <a class="nav-link" href="profile.php"><i data-feather="user"></i> Profile</a>
                     <a class="nav-link" href="actions/logout.php"><i data-feather="log-out"></i> Logout</a>
-                    <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard" target="_blank"><i
+                    <a class="nav-link rightmost" href="https://github.com/PhysCorp/Dashboard.LOL" target="_blank"><i
                             data-feather="github"></i> GitHub</a>
                 </div>
             </div>

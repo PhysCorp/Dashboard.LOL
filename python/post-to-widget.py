@@ -3,7 +3,7 @@ import requests
 import os.path
 
 # Main variables
-url = ""
+url = "http://127.0.0.1:8888/dashboard/actions/cli/post.php"
 username = "dashboard_agent"
 password = "thedashboardliveson"
 internal_name = []
